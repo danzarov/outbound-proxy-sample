@@ -28,7 +28,7 @@ resource "aws_cloudformation_stack" "outbound_proxy" {
     PublicSubnet2  = aws_cloudformation_stack.vpc_pub_priv.outputs["PublicSubnet2"]
     PrivateSubnet1 = aws_cloudformation_stack.vpc_pub_priv.outputs["PrivateSubnet1"]
     PrivateSubnet2 = aws_cloudformation_stack.vpc_pub_priv.outputs["PrivateSubnet2"]
-    KeyName = var.key_name
+    KeyName        = var.key_name
   }
 
   tags = {

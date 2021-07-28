@@ -16,7 +16,6 @@ Parameters:
     Type: String
     #Type: 'AWS::EC2::KeyPair::KeyName'
     Description: Name of RSA key for EC2 access for testing only.
-    Default: 'dsimoes-oregon'
 
   ProxyPort:
     Type: String
