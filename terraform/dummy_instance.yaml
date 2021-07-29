@@ -1,0 +1,30 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Dummy Instance'
+
+Parameters:
+  KeyName:    
+    Type: String
+    Description: The EC2 Key Pair to allow SSH access to the instances.
+
+  InstancesSecurityGroup:
+    Description: Instances SecurityGroup
+    Type: String
+
+  PublicSubnet1:
+    Description: Public SubnetID where the dummy instance will be placed
+    Type: String
+
+Resources:
+  DummyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: 'ami-0c5204531f799e0c6'
+      InstanceType: 't2.micro' 
+      SubnetId: !Ref PublicSubnet1
+      SecurityGroupIds: !Split [",", !Ref InstancesSecurityGroup]
+      KeyName: !Ref KeyName 
+       
+    Metadata:
+      Instance:
+        Description: "Dummy instance"

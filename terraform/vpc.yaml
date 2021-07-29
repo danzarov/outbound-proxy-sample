@@ -135,6 +135,18 @@ Resources:
       SubnetId: !Ref PrivateSubnet2
       RouteTableId: !Ref PrivateRouteTable
 
+  InstancesSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access
+      VpcId:
+        Ref: PubPrivateVPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+
 Outputs:
   VpcId:
     Description: Vpc ID
@@ -165,3 +177,9 @@ Outputs:
     Value: !Ref PrivateSubnet2
     Export:
       Name: "PrivateSubnet2"
+
+  InstancesSecurityGroup:
+    Description: Instances SecurityGroup
+    Value: !Ref InstancesSecurityGroup
+    Export:
+      Name: "InstancesSecurityGroup"      

@@ -13,6 +13,8 @@ resource "aws_cloudformation_stack" "vpc_pub_priv" {
   template_body    = file("vpc.yaml")
 }
 
+# todo -  create a security group on vpc.yaml/outputs and pass it to outbound below via parameters
+
 resource "aws_cloudformation_stack" "outbound_proxy" {
   depends_on = [
     aws_cloudformation_stack.vpc_pub_priv
@@ -38,3 +40,27 @@ resource "aws_cloudformation_stack" "outbound_proxy" {
   disable_rollback = false
   template_body    = file("outbound_proxy.yaml")
 }
+
+resource "aws_cloudformation_stack" "dummy_instance" {
+  depends_on = [
+    aws_cloudformation_stack.outbound_proxy
+  ]
+
+  capabilities = ["CAPABILITY_NAMED_IAM"]
+
+  name = "${var.env_name}-dummy-instance"
+
+  parameters = {
+    InstancesSecurityGroup = aws_cloudformation_stack.vpc_pub_priv.outputs["InstancesSecurityGroup"]
+    PublicSubnet1          = aws_cloudformation_stack.vpc_pub_priv.outputs["PublicSubnet1"]
+    KeyName                = var.key_name
+  }
+
+  tags = {
+    envname = var.env_name
+  }
+
+  disable_rollback = false
+  template_body    = file("dummy_instance.yaml")
+}
+
