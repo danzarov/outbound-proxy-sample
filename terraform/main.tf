@@ -13,8 +13,6 @@ resource "aws_cloudformation_stack" "vpc_pub_priv" {
   template_body    = file("vpc.yaml")
 }
 
-# todo -  create a security group on vpc.yaml/outputs and pass it to outbound below via parameters
-
 resource "aws_cloudformation_stack" "outbound_proxy" {
   depends_on = [
     aws_cloudformation_stack.vpc_pub_priv
