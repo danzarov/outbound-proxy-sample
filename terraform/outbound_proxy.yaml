@@ -4,7 +4,7 @@ Parameters:
 
   WhitelistedDomains:
     Type: String
-    Default: .amazonaws.com, .debian.org
+    Default: .ubuntu.com, .amazonaws.com, .debian.org
     Description: Whitelisted domains comma separated
 
   CustomDNS:
@@ -508,6 +508,11 @@ Resources:
                  # Example rule allowing access from your local networks.
                  # Adapt localnet in the ACL section to list your (internal) IP networks
                  # from where browsing should be allowed
+
+                 # uncomment the two lines below to allow all traffic through the proxy 
+                 #acl all src all
+                 #http_access allow all       
+
                  acl allowed_http_sites dstdomain "/etc/squid/squid.allowed.sites.txt"
                  http_access allow allowed_http_sites
                  #http_access allow localnet
